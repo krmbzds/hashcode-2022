@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+require "hashcode"
+require "parallel"
+
+files = Dir['./data/input/*.in.txt'].map {|x| [x, x.sub('input', 'output').sub('in.txt', 'out.txt')] }
+# files.each do |input_file, output_file|
+Parallel.map(files) do |input_file, output_file|
+  problem = Hashcode::Problem.read(input_file)
+  solution = problem.solve()
+  problem.write(solution, output_file)
+end
